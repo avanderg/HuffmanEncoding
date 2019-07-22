@@ -16,5 +16,5 @@ hdecode.o: hdecode.c hdecode.h huffman_funs.h
 huffman_funs.o: huffman_funs.c huffman_funs.h
 	$(CC) $(CFLAGS) -c -O2 huffman_funs.c
 clean:
-	rm  *.o
+	rm  *.o hencode hdecode
 
