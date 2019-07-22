@@ -1,0 +1,30 @@
+ Name: Aaron VanderGraaff 
+ CPE357 Assgn3  
+ 2/4/19
+
+
+The programs hencode and hdecode huffman encode and huffman decode, respectively,
+a given file.The hdecode program decodes the encoded file to give the original. 
+Note: These functions must be used together. There is no guarantee hencode will 
+work with a different hdecode program (or vice-versa). These programs use Unix
+system calls, so they will not work on Windows. These programs also use long long
+format so they will not work on a 32-bit machine. If you would like to use these
+programs on a 32-bit machine, change the 'total' variable in hdecode.c to an 
+unsigned long. The supported file size will shrink to 500 mB. These programs also 
+assume Little-Endian format, used on x86 processors. If you want to use these 
+programs on a Big-Endian machine, you will need to change the order in which the 
+codes are written. 
+These programs  should work on files that are smaller than 2^64 bits (That's about
+2 billion gB so I hope your file is smaller than that) and each individual 
+character must appear less than 2^32 times (about 4 billion occurences). These 
+programs use O_LARGEFILE so if your system does not support that, remove the 
+GNU_SOURCE flag in the Makefile.
+
+For hencode:
+	Usage is: hencode infile [outfile].
+ 	If no outfile is given, the output is stdout. Note an infile is needed.
+For hdecode:
+	Usage is: hdecode [(infile)|-] [outfile]. If infile is not
+   		given, the - signals to use stdin and if outfile is not given, 
+		the output is stdout.
+
