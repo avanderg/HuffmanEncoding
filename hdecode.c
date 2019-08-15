@@ -72,6 +72,10 @@ int main(int argc, char *argv[]) {
 	/* buff is size 4096 which is greater than the maximium size of the 
 	   header (256*5 = 1280) so only need one read
 	*/
+	if (sizeof(uint8_t) * SIZE < num_chars*BLK_SIZE) {
+		perror("read");
+		exit(EXIT_FAILURE);
+	}
 	num = read(infd, buff, num_chars*BLK_SIZE);
 	if (num == -1) {
 		perror("read");
@@ -89,6 +93,10 @@ int main(int argc, char *argv[]) {
 	total = build_freq_table(freq, num, buff, &last_written);
 
 	if (num_chars == 1) {
+		if (freq[last_written] > SIZE) {
+			perror("write");
+			exit(EXIT_FAILURE);
+		}
 		for (i=0; i<freq[last_written]; i++) {
 			buff[i] = last_written;
 		}
@@ -152,6 +160,10 @@ void decode_traversal(node *list, int infd, int outfd, uint8_t *buff,
 				write_flag = 0;
 				if (counter >= total) {
 					break;
+				}
+				if (current == NULL) {
+					perror("decode");
+					exit(EXIT_FAILURE);
 				}
 				if (current->rt == NULL && 
 						current->lft == NULL) {
