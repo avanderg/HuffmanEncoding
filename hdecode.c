@@ -73,7 +73,9 @@ int main(int argc, char *argv[]) {
 	   header (256*5 = 1280) so only need one read
 	*/
 	if (sizeof(uint8_t) * SIZE < num_chars*BLK_SIZE) {
-		perror("read");
+		fprintf(stderr, 
+		"Header larger than buffer. This shouldn't be possible."
+		" Malformed header.\n");
 		exit(EXIT_FAILURE);
 	}
 	num = read(infd, buff, num_chars*BLK_SIZE);
@@ -82,7 +84,7 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 	if (num != num_chars*BLK_SIZE) {
-		fprintf(stderr, "wrong number of bytes read");
+		fprintf(stderr, "wrong number of bytes read\n");
 		exit(EXIT_FAILURE);
 	}
 	/* loop through each 5 byte block. The first byte is the character
@@ -94,7 +96,7 @@ int main(int argc, char *argv[]) {
 
 	if (num_chars == 1) {
 		if (freq[last_written] > SIZE) {
-			perror("write");
+			fprintf(stderr, "Freq too high\n");
 			exit(EXIT_FAILURE);
 		}
 		for (i=0; i<freq[last_written]; i++) {
@@ -162,7 +164,8 @@ void decode_traversal(node *list, int infd, int outfd, uint8_t *buff,
 					break;
 				}
 				if (current == NULL) {
-					perror("decode");
+					fprintf(stderr,
+						"Decode: Linked list is NULL\n");
 					exit(EXIT_FAILURE);
 				}
 				if (current->rt == NULL && 
